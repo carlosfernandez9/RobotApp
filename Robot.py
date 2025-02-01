@@ -76,7 +76,7 @@ def repair_bay():
 @app.route('/teapot', methods=['POST'])
 def teapot():
     # Responde con el código de estado 418 (I'm a teapot)
-    return make_response("I'm a teapot", 418 ("I'm a teapot"))
+    return make_response("I'm a teapot", 418)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
