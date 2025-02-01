@@ -5,7 +5,7 @@ Spyder Editor
 This is a temporary script file.
 """
 
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
 import random
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ systems = {
 
 @app.route('/')
 def home():
-    return "Bienvenido a la API de Reparación Espacial. Usa las rutas disponibles para interactuar con la API."
+    return ("Bienvenido a la API de Reparación Espacial. Usa las rutas disponibles para interactuar con la API.", 200)
 
 
 @app.route('/status', methods=['GET'])
