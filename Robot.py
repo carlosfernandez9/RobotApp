@@ -71,12 +71,12 @@ def repair_bay():
     """
     
     # Return the HTML response with the correct repair code
-    return make_response(html_response, 200)
+    return make_response(html_response), 200
 
 @app.route('/teapot', methods=['POST'])
 def teapot():
     # Responde con el código de estado 418 (I'm a teapot)
-    return make_response("I'm a teapot", 418)
+    return make_response("I'm a teapot", 418 ("I'm a teapot"))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
