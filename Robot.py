@@ -43,9 +43,6 @@ def status():
         random_system = random.choice(list(systems.keys()))
         return jsonify({"damaged_system": random_system}), 200
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
-
 
 # Second GET /repair-bay to get the repair bay page
 @app.route('/repair-bay', methods=['GET'])
