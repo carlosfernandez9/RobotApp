@@ -5,7 +5,7 @@ Spyder Editor
 This is a temporary script file.
 """
 
-from flask import Flask, jsonify, make_response#, request
+from flask import Flask, jsonify, make_response, request
 import random
 
 app = Flask(__name__)
@@ -29,12 +29,22 @@ def home():
 # First GET /status to get the damaged system
 @app.route('/status', methods=['GET'])
 def status():
-    global damaged_system
-    # You can choose the damaged system randomly, for example:
-    damaged_system = random.choice(list(systems.keys()))  # Or pick it dynamically based on your logic
-    
-    # Return the damaged system as JSON
-    return jsonify({"damaged_system": damaged_system}), 200
+    # Get the 'damaged_system' parameter from the query string
+    damaged_system = request.args.get('damaged_system', default=None)
+
+    if damaged_system:
+        # If a system is selected, return that specific system
+        if damaged_system in systems:
+            return jsonify({"damaged_system": damaged_system, "code": systems[damaged_system]}), 200
+        else:
+            return jsonify({"error": "Invalid system selected"}), 400
+    else:
+        # If no system is selected, pick a random system
+        random_system = random.choice(list(systems.keys()))
+        return jsonify({"damaged_system": random_system, "code": systems[random_system]}), 200
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
 
 
 # Second GET /repair-bay to get the repair bay page
