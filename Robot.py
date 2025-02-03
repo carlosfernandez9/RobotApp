@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 # Global variable to store the damaged system
 damaged_system = None
+pressure = None
 
 # Lista de sistemas posibles y sus códigos
 systems = {
@@ -101,6 +102,30 @@ def repair_bay():
 def teapot():
     # Responde con el código de estado 418 (I'm a teapot)
     return make_response("I'm a teapot", 418)
+
+@app.route('/phase-change-diagram', methods=['GET'])
+def get_phase_change_data():
+    pressure = float(request.args.get('pressure', default=None))
+    
+    if pressure:
+        if pressure > 10:
+            return jsonify({
+                "specific_volume_liquid": 0.0035,
+                "specific_volume_vapor": 0.0035
+            })
+            
+        else: 
+            specific_volume_liquid = 0.0035 - 0.002925 * (pressure - 0.05)
+            specific_volume_vapor = 30 - 0.02995 * (pressure - 0.05)
+        
+            return jsonify({
+                "specific_volume_liquid": specific_volume_liquid,
+                "specific_volume_vapor": specific_volume_vapor
+        })
+    else:
+        return jsonify({
+            "error": "Unsupported pressure value"
+        }), 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
