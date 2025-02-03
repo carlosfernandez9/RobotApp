@@ -27,30 +27,32 @@ def home():
     return ("Bienvenido a la API de Reparación Espacial. Usa las rutas disponibles para interactuar con la API.", 200)
 
 # First GET /status to get the damaged system
-@app.route('/status', methods=['GET'])
-def status():
-    global damaged_system
-    # You can choose the damaged system randomly, for example:
-    damaged_system = random.choice(list(systems.keys()))  # Or pick it dynamically based on your logic
-    
-    # Return the damaged system as JSON
-    return jsonify({"damaged_system": damaged_system}), 200
-
 # @app.route('/status', methods=['GET'])
 # def status():
-#     # Get the 'damaged_system' parameter from the query string
-#     damaged_system = request.args.get('damaged_system', default=None)
+#     global damaged_system
+#     # You can choose the damaged system randomly, for example:
+#     damaged_system = random.choice(list(systems.keys()))  # Or pick it dynamically based on your logic
+    
+#     # Return the damaged system as JSON
+#     return jsonify({"damaged_system": damaged_system}), 200
 
-#     if damaged_system:
-#         # If a system is selected, return that specific system
-#         if damaged_system in systems:
-#             return jsonify({"damaged_system": damaged_system}), 200
-#         else:
-#             return jsonify({"error": "Invalid system selected"}), 400
-#     else:
-#         # If no system is selected, pick a random system
-#         random_system = random.choice(list(systems.keys()))
-#         return jsonify({"damaged_system": random_system}), 200
+@app.route('/status', methods=['GET'])
+def status():
+    
+    global damaged_system
+    # Get the 'damaged_system' parameter from the query string
+    damaged_system = request.args.get('damaged_system', default=None)
+
+    if damaged_system:
+        # If a system is selected, return that specific system
+        if damaged_system in systems:
+            return jsonify({"damaged_system": damaged_system}), 200
+        else:
+            return jsonify({"error": "Invalid system selected"}), 400
+    else:
+        # If no system is selected, pick a random system
+        random_system = random.choice(list(systems.keys()))
+        return jsonify({"damaged_system": random_system}), 200
 
 
 # Second GET /repair-bay to get the repair bay page
