@@ -107,9 +107,42 @@ def teapot():
 @app.route('/phase-change-diagram', methods=['GET'])
 def get_phase_change_data():
     
-    try:
-        pressure = float(request.args.get('pressure', default=None, type=float))
+    pressure_value = request.args.get('pressure', default=None, type=str)
+    #pressure = float(request.args.get('pressure', default=None, type=float))
+
+    if pressure_value is None:
+        return jsonify({"error": "Pressure value is required"}), 400
     
+    try:
+        # Try to convert the pressure value to a float
+        pressure = float(pressure_value)
+    except ValueError:
+        # If conversion fails, return an error message
+        return jsonify({"error": "Invalid pressure value. Pressure must be a number."}), 400
+        
+
+    if pressure:
+        if pressure >= 10:
+            return jsonify({
+                "specific_volume_liquid": 0.0035,
+                "specific_volume_vapor": 0.0035
+            })
+            
+        else: 
+            specific_volume_liquid = (0.00245/9.95*pressure) + (0.00105 - (0.00245/9.95*0.05))
+            specific_volume_vapor = (29.9965/-9.95*pressure) + (0.0035 + (29.9965/9.95*10))
+        
+            return jsonify({
+                "specific_volume_liquid": specific_volume_liquid,
+                "specific_volume_vapor": specific_volume_vapor
+        }), 200
+    else:
+        return jsonify({
+            "error": "Unsupported pressure value"
+        }), 400
+    
+    
+        
         # if pressure:
         #     if pressure >= 10:
         #         response_data = {
@@ -143,30 +176,7 @@ def get_phase_change_data():
         # else:
         #     return jsonify({"error": "Pressure value is required"}), 400
     
-        
-        if pressure:
-            if pressure >= 10:
-                return jsonify({
-                    "specific_volume_liquid": 0.0035,
-                    "specific_volume_vapor": 0.0035
-                })
-                
-            else: 
-                specific_volume_liquid = (0.00245/9.95*pressure) + (0.00105 - (0.00245/9.95*0.05))
-                specific_volume_vapor = (29.9965/-9.95*pressure) + (0.0035 + (29.9965/9.95*10))
-            
-                return jsonify({
-                    "specific_volume_liquid": specific_volume_liquid,
-                    "specific_volume_vapor": specific_volume_vapor
-            }), 200
-        else:
-            return jsonify({
-                "error": "Unsupported pressure value"
-            }), 400
-        
-    except ValueError:
-        # If the conversion to float fails, return an error message
-        return jsonify({"error": "Invalid pressure value. Pressure must be a number."}), 400
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
