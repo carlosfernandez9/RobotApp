@@ -5,7 +5,7 @@ Spyder Editor
 This is a temporary script file.
 """
 
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, jsonify, make_response, request, redirect
 import random
 
 app = Flask(__name__)
@@ -21,6 +21,12 @@ systems = {
     "engines": "ENG-04",
     "deflector_shield": "SHLD-05"
 }
+
+@app.before_request
+def enforce_https():
+    if request.is_secure:
+        url = request.url.replace("https://", "http://")
+        return redirect(url, 301)
 
 @app.route('/')
 def home():
