@@ -51,8 +51,8 @@ def status():
             return jsonify({"error": "Invalid system selected"}), 400
     else:
         # If no system is selected, pick a random system
-        random_system = random.choice(list(systems.keys()))
-        return jsonify({"damaged_system": random_system}), 200
+        damaged_system = random.choice(list(systems.keys()))
+        return jsonify({"damaged_system": damaged_system}), 200
 
 
 # Second GET /repair-bay to get the repair bay page
