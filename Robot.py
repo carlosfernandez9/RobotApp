@@ -114,7 +114,7 @@ def get_phase_change_data():
                 "specific_volume_liquid": 0.0035,
                 "specific_volume_vapor": 0.0035
             }
-        elif pressure >= 0.05:
+        elif pressure >= 0:
             specific_volume_liquid = (0.00245 / 9.95 * pressure) + (0.00105 - 0.00245 / 9.95 * 0.05)
             specific_volume_vapor = (29.9965 / -9.95 * pressure) + (0.0035 + 29.9965 / 9.95 * 10)
 
