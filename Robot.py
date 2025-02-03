@@ -122,8 +122,12 @@ def get_phase_change_data():
                 # "specific_volume_liquid": round(specific_volume_liquid, 4),
                 # "specific_volume_vapor": round(specific_volume_vapor, 4)
                 
-                "specific_volume_liquid": specific_volume_liquid,
-                "specific_volume_vapor": specific_volume_vapor
+                # "specific_volume_liquid": specific_volume_liquid,
+                # "specific_volume_vapor": specific_volume_vapor
+                
+                "specific_volume_liquid": f"{specific_volume_liquid:.4f}",
+                "specific_volume_vapor": f"{specific_volume_vapor:.4f}"
+          
             }
         else:
             return jsonify({"error": "Unsupported pressure value"}), 400
