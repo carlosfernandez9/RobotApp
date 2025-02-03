@@ -108,59 +108,59 @@ def teapot():
 def get_phase_change_data():
     pressure = float(request.args.get('pressure', default=None, type=float))
 
-    if pressure:
-        if pressure >= 10:
-            response_data = {
-                "specific_volume_liquid": 0.0035,
-                "specific_volume_vapor": 0.0035
-            }
-        elif pressure >= 0:
-            specific_volume_liquid = (0.00245 / 9.95 * pressure) + (0.00105 - 0.00245 / 9.95 * 0.05)
-            specific_volume_vapor = (29.9965 / -9.95 * pressure) + (0.0035 + 29.9965 / 9.95 * 10)
-
-            response_data = {
-                # "specific_volume_liquid": round(specific_volume_liquid, 5),
-                # "specific_volume_vapor": round(specific_volume_vapor, 5)
-                
-                "specific_volume_liquid": specific_volume_liquid,
-                "specific_volume_vapor": specific_volume_vapor
-                
-                # "specific_volume_liquid": f"{specific_volume_liquid:.4f}",
-                # "specific_volume_vapor": f"{specific_volume_vapor:.4f}"
-          
-            }
-        else:
-            return jsonify({"error": "Unsupported pressure value"}), 400
-
-        # Use json.dumps() to pretty-print the response
-        return app.response_class(
-            response=json.dumps(response_data, indent=2),
-            status=200,
-            mimetype='application/json'
-        )
-    else:
-        return jsonify({"error": "Pressure value is required"}), 400
-
-    
     # if pressure:
     #     if pressure >= 10:
-    #         return jsonify({
+    #         response_data = {
     #             "specific_volume_liquid": 0.0035,
     #             "specific_volume_vapor": 0.0035
-    #         })
-            
-    #     else: 
-    #         specific_volume_liquid = (0.00245/9.95*pressure) + (0.00105 - 0.00245/9.95*0.05)
-    #         specific_volume_vapor = (29.9965/-9.95*pressure) + (0.0035 + 29.9965/9.95*10)
-        
-    #         return jsonify({
+    #         }
+    #     elif pressure >= 0:
+    #         specific_volume_liquid = (0.00245 / 9.95 * pressure) + (0.00105 - 0.00245 / 9.95 * 0.05)
+    #         specific_volume_vapor = (29.9965 / -9.95 * pressure) + (0.0035 + 29.9965 / 9.95 * 10)
+
+    #         response_data = {
+    #             # "specific_volume_liquid": round(specific_volume_liquid, 5),
+    #             # "specific_volume_vapor": round(specific_volume_vapor, 5)
+                
     #             "specific_volume_liquid": specific_volume_liquid,
     #             "specific_volume_vapor": specific_volume_vapor
-    #     })
+                
+    #             # "specific_volume_liquid": f"{specific_volume_liquid:.4f}",
+    #             # "specific_volume_vapor": f"{specific_volume_vapor:.4f}"
+          
+    #         }
+    #     else:
+    #         return jsonify({"error": "Unsupported pressure value"}), 400
+
+    #     # Use json.dumps() to pretty-print the response
+    #     return app.response_class(
+    #         response=json.dumps(response_data, indent=2),
+    #         status=200,
+    #         mimetype='application/json'
+    #     )
     # else:
-    #     return jsonify({
-    #         "error": "Unsupported pressure value"
-    #     }), 400
+    #     return jsonify({"error": "Pressure value is required"}), 400
+
+    
+    if pressure:
+        if pressure >= 10:
+            return jsonify({
+                "specific_volume_liquid": 0.0035,
+                "specific_volume_vapor": 0.0035
+            })
+            
+        else: 
+            specific_volume_liquid = (0.00245/9.95*pressure) + (0.00105 - 0.00245/9.95*0.05)
+            specific_volume_vapor = (29.9965/-9.95*pressure) + (0.0035 + 29.9965/9.95*10)
+        
+            return jsonify({
+                "specific_volume_liquid": specific_volume_liquid,
+                "specific_volume_vapor": specific_volume_vapor
+        })
+    else:
+        return jsonify({
+            "error": "Unsupported pressure value"
+        }), 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
