@@ -115,8 +115,8 @@ def get_phase_change_data():
             })
             
         else: 
-            specific_volume_liquid = 0.0035 - 0.002925 * (pressure - 0.05)
-            specific_volume_vapor = 30 - 0.02995 * (pressure - 0.05)
+            specific_volume_liquid = (0.00245/9.95*pressure) + (0.00105 - 0.00245/9.95*0.05)
+            specific_volume_vapor = (29.9965/-9.95*pressure) + (0.0035 + 29.9965/9.95*10)
         
             return jsonify({
                 "specific_volume_liquid": specific_volume_liquid,
